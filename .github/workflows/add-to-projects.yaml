@@ -1,0 +1,19 @@
+name: Assign Issue to Project
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened]
+  issues:
+    types: [opened]
+env:
+  MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+
+jobs:
+  add-to-project:
+    name: Add issue to project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: srggrs/assign-one-project-github-action@1.2.1
+        with:
+          project: 'https://github.com/srggrs/assign-one-project-github-action/projects/2'
