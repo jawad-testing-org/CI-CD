@@ -1,0 +1,19 @@
+name: Mark WIP as Drafts
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  mark-as-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR title has 'WIP' prefix (case-insensitive)
+        id: check-title
+        run: echo "::set-output name=is_wip::$(echo '${{ github.event.pull_request.title }}' | grep -qi '^WIP' && echo 'true' || echo 'false')"
+
+      - name: Mark PR as draft if prefixed with 'WIP'
+        if: steps.check-title.outputs.is_wip == 'true'
+        uses: voiceflow/draft-pr@latest
+        with:
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
