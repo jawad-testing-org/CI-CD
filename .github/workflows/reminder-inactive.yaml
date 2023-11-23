@@ -1,0 +1,23 @@
+name: Reminder Inactive PRs
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run daily at midnight
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  remind-inactive-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reminder for Inactive PRs
+        uses: agrc/reminder-action@v1.0.11 #        uses: lee-dohm/issue-reminder@v1
+        with:
+          repo-token: ${{ secrets.MY_GITHUB_TOKEN }}
+          days-before-reminder: 4
+          reminder-label: 'inactive'
+          only-issue-creators: false # Set to true if you only want to notify issue creators
+          only-assigned-issues: false # Set to true if you only want to notify assigned issues
+          ignore-issues-with: 'wontfix, duplicate' # Add labels to ignore
